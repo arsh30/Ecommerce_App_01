@@ -1,0 +1,160 @@
+PART 1 -> 
+
+- project setUp - npx react-native@0.70.0 init AwesomeProject --version 0.70.0
+- Navigation setUp
+- Side Navigation 
+- Bottom Navigation 
+- Products Listing using API
+- Firebasse setUp
+
+--------------------------------
+
+2.  Navigation Setup 
+    - npm install @react-navigation/native
+    - npm install react-native-screens react-native-safe-area-context
+    - npm install @react-navigation/native-stack
+    - npm i react-native-gesture-handler@2.9.0 -> because sabkuch touch pr hai toh this is must to install, it support react native 0.70.0 and it is stable version 
+
+2.1 App.js ->
+const App = () => {
+  return <AppNavigator />;
+};
+
+2.2 Make folder Src and inside this create file AppNavigator.js 
+
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {NavigationContainer} from '@react-navigation/native';
+import Main from './screens/Main';
+
+const Stack = createNativeStackNavigator();
+
+const AppNavigator = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Main"
+          component={Main}
+          options={{headerShown: false}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+export default AppNavigator;
+
+
+2.3 MAke folder inside src ie screens and create File - Main.js
+
+const Main = () => {
+  return (
+    <View>
+      <Text>Main</Text>
+    </View>
+  )
+}
+
+export default Main
+-----------------------------------------------------
+
+3. SIDE NAVIGATION -> check the register for whole concept 
+
+    - npm install @react-navigation/drawer [iske sath re-animated bhi use krege vo mist h use krna and gesture-handler bhi] so go to the website 
+    - npm install react-native-reanimated
+  
+    NOTE -> Some times reanimated dalne ke baad project me issue aane lag jate hai 
+    kuch cache ki vjah se sahi se cache clear nahi ho pata and app sahi se refresh nahi ho pata 
+    to uss case me native tarike se project ko clear krna chaiye and run krna chaiye 
+
+    - Add react-native-reanimated/plugin plugin to your babel.config.js
+            module.exports = {
+                presets: [
+                ... // don't add it here :)
+                ],
+                plugins: [
+                ...
+                'react-native-reanimated/plugin',
+                ]
+             }
+
+            Eg: of my babel.config file [sbse bhar hi hogi root pr]
+            module.exports = {
+                presets: ['module:metro-react-native-babel-preset'],
+                plugins: ['react-native-reanimated/plugin'],
+            };
+
+            or we can give the relative path also 
+
+             module.exports = {
+                presets: ['module:metro-react-native-babel-preset'],
+                plugins: [ 
+                    [
+                        'react-native-reanimated/plugin', 
+                        {
+                            relativeSourceLocation:true,
+                        }
+                    ] 
+                ],
+            };
+
+    - After adding plugins - cache vgara ko reset krna pdhta hai 
+            cd android - ./gradlew clean 
+
+    - RUN THE CODE AGAIN -> npm run dev 
+
+    ---------------------- finish installing reanimated --------
+
+
+3.1 Main.js -> ye App Navigator ke andr use hua and iske andr 1 screen bnai ie Main.js jisme 
+    Drawer Navigator use hora hai 
+
+const Main = () => {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen
+        name="HomeScreen"
+        component={HomeScreen}
+        options={{headerShown: false}}
+      />
+    </Drawer.Navigator>
+  );
+};
+
+
+3.2 Create Another screen -> Home Screen jo Drawer Navigator ke andr dalegi, ie in Main.js 
+
+NOTE -> Some times this error comes after installing re animated 
+mygroceryApp has not been registered This can happen if metro (the local dev server) is 
+run from the wrong folder, check if metro is running.... so on 
+
+so in this case jo niche terminal hai usko "DELETE KRKE NEW TERMINAL ME AGAIN OPEN KREGE"  
+
+OR 
+
+Run cache clear run command 
+
+
+HomeScreen.js -> 
+
+
+3.3) CREATE FOLDER INTO SRC IE COMMON -> ISME HEADER BNAEGE isme 
+
+
+
+3.4) MAKE ANOTHER FOLDER FOR IMAGES -> for icons choose from flatIcon website 
+    try to download the icon for bottom tab -> Jo icon fill ho, and Jo empty ho 
+
+
+
+====================================================================
+
+Home Screen.js ->  for Listing of products - we are using Fake Store API
+API call krne ke liye redux use nai krre , redux is only used for 
+products ko cart ke andr add krne k liye, wishlist ke andr add krne ke liye 
+
+After Listing in Home.js file 
+
+==================================================================
+
+Now make connection of Firebasse setUp
